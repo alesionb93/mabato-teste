@@ -1661,36 +1661,22 @@ button, input, select, textarea { font-family: inherit; font-size: 100%; }
 
   const PLACAS_EXEMPLO = ['ABC1D23', 'BRA2E19', 'XYZ1234', 'QWE9Z99'];
 
-  /* ---- Checklist: 11 categorias / 125 itens ---- */
+  /* ---- Checklist: 11 categorias / ~29 itens (versão reduzida para teste de 30min) ---- */
   const CHECKLIST = [
     {
       id: 'identificacao', nome: 'Identificação do veículo', icone: 'shield',
       itens: [
         ['plate', 'Placa', 'Legibilidade, lacre e ausência de adulteração.'],
         ['chassis', 'Número do chassi', 'Gravação original, sem remarcação ou desgaste.'],
-        ['renavam', 'RENAVAM', 'Confere com o documento apresentado pelo cliente.'],
-        ['id-label', 'Etiqueta de identificação', 'Etiquetas nas peças presentes e íntegras.'],
-        ['engine-number', 'Número do motor', 'Numeração gravada no bloco, legível e conferida.']
+        ['renavam', 'RENAVAM', 'Confere com o documento apresentado pelo cliente.']
       ]
     },
     {
       id: 'carroceria', nome: 'Carroceria e estrutura', icone: 'car',
       itens: [
         ['hood', 'Capô', 'Alinhamento, folgas e ausência de amassados.'],
-        ['roof', 'Teto', 'Deformações, marcas de impacto ou reparo.'],
         ['front-left-door', 'Porta dianteira esquerda', 'Abertura, fechamento e alinhamento.'],
-        ['front-right-door', 'Porta dianteira direita', 'Abertura, fechamento e alinhamento.'],
-        ['rear-left-door', 'Porta traseira esquerda', 'Abertura, fechamento e alinhamento.'],
-        ['rear-right-door', 'Porta traseira direita', 'Abertura, fechamento e alinhamento.'],
-        ['trunk-lid', 'Tampa do porta-malas', 'Travamento, vedação e alinhamento.'],
-        ['front-left-fender', 'Para-lama dianteiro esquerdo', 'Amassados, trincas e fixação.'],
-        ['front-right-fender', 'Para-lama dianteiro direito', 'Amassados, trincas e fixação.'],
-        ['rear-left-fender', 'Para-lama traseiro esquerdo', 'Amassados, trincas e fixação.'],
-        ['rear-right-fender', 'Para-lama traseiro direito', 'Amassados, trincas e fixação.'],
         ['front-bumper', 'Para-choque dianteiro', 'Fixação, trincas e alinhamento com a carroceria.'],
-        ['rear-bumper', 'Para-choque traseiro', 'Fixação, trincas e alinhamento com a carroceria.'],
-        ['sills', 'Soleiras', 'Corrosão, deformação e presença dos acabamentos.'],
-        ['side-rails', 'Longarinas', 'Sinais de colisão, solda ou amassamento.'],
         ['visible-structure', 'Estrutura aparente', 'Assoalho, colunas e caixas de roda.']
       ]
     },
@@ -1698,66 +1684,29 @@ button, input, select, textarea { font-family: inherit; font-size: 100%; }
       id: 'pintura', nome: 'Pintura', icone: 'paint',
       itens: [
         ['paint-hood', 'Pintura do capô', 'Brilho, uniformidade e acabamento.'],
-        ['paint-roof', 'Pintura do teto', 'Brilho, uniformidade e acabamento.'],
-        ['paint-front-left-door', 'Pintura da porta dianteira esquerda', 'Brilho, uniformidade e acabamento.'],
-        ['paint-front-right-door', 'Pintura da porta dianteira direita', 'Brilho, uniformidade e acabamento.'],
-        ['paint-rear-left-door', 'Pintura da porta traseira esquerda', 'Brilho, uniformidade e acabamento.'],
-        ['paint-rear-right-door', 'Pintura da porta traseira direita', 'Brilho, uniformidade e acabamento.'],
-        ['paint-trunk', 'Pintura do porta-malas', 'Brilho, uniformidade e acabamento.'],
-        ['paint-fenders', 'Pintura dos para-lamas', 'Brilho, uniformidade e acabamento.'],
-        ['paint-bumpers', 'Pintura dos para-choques', 'Brilho, uniformidade e acabamento.'],
-        ['repaint-signs', 'Sinais de repintura', 'Excesso de tinta em borrachas e frisos.'],
-        ['tone-difference', 'Diferença de tonalidade', 'Comparação entre peças sob luz natural.'],
-        ['scratches', 'Riscos aparentes', 'Riscos superficiais ou profundos na lataria.'],
-        ['dents', 'Amassados', 'Pequenas deformações visíveis na chapa.'],
-        ['oxidation', 'Oxidação', 'Pontos de ferrugem ou bolhas na pintura.']
+        ['scratches', 'Riscos aparentes', 'Riscos superficiais ou profundos na lataria.']
       ]
     },
     {
       id: 'vidros', nome: 'Vidros e espelhos', icone: 'window',
       itens: [
         ['windshield', 'Para-brisa', 'Trincas, lascas e gravação do vidro.'],
-        ['front-left-window', 'Vidro dianteiro esquerdo', 'Acionamento, trincas e vedação.'],
-        ['front-right-window', 'Vidro dianteiro direito', 'Acionamento, trincas e vedação.'],
-        ['rear-left-window', 'Vidro traseiro esquerdo', 'Acionamento, trincas e vedação.'],
-        ['rear-right-window', 'Vidro traseiro direito', 'Acionamento, trincas e vedação.'],
-        ['rear-window', 'Vidro traseiro', 'Trincas e integridade do desembaçador.'],
-        ['left-mirror', 'Espelho retrovisor esquerdo', 'Fixação, regulagem e superfície refletora.'],
-        ['right-mirror', 'Espelho retrovisor direito', 'Fixação, regulagem e superfície refletora.'],
-        ['sunroof', 'Teto solar, quando aplicável', 'Acionamento, vedação e drenos.']
+        ['left-mirror', 'Espelho retrovisor esquerdo', 'Fixação, regulagem e superfície refletora.']
       ]
     },
     {
       id: 'iluminacao', nome: 'Iluminação', icone: 'bulb',
       itens: [
         ['low-beam-left', 'Farol baixo esquerdo', 'Funcionamento e alinhamento do facho.'],
-        ['low-beam-right', 'Farol baixo direito', 'Funcionamento e alinhamento do facho.'],
-        ['high-beam-left', 'Farol alto esquerdo', 'Acionamento e intensidade.'],
-        ['high-beam-right', 'Farol alto direito', 'Acionamento e intensidade.'],
-        ['front-left-lamp', 'Lanterna dianteira esquerda', 'Funcionamento e integridade da lente.'],
-        ['front-right-lamp', 'Lanterna dianteira direita', 'Funcionamento e integridade da lente.'],
-        ['rear-left-lamp', 'Lanterna traseira esquerda', 'Funcionamento e integridade da lente.'],
-        ['rear-right-lamp', 'Lanterna traseira direita', 'Funcionamento e integridade da lente.'],
         ['brake-light', 'Luz de freio', 'Acende nas três lâmpadas ao acionar o pedal.'],
-        ['reverse-light', 'Luz de ré', 'Acende ao engatar a marcha à ré.'],
-        ['fog-light', 'Luz de neblina', 'Acionamento pelo comando do painel.'],
-        ['front-turn-signals', 'Setas dianteiras', 'Frequência e funcionamento de ambos os lados.'],
-        ['rear-turn-signals', 'Setas traseiras', 'Frequência e funcionamento de ambos os lados.'],
-        ['plate-light', 'Luz de placa', 'Ilumina a placa traseira corretamente.']
+        ['front-turn-signals', 'Setas dianteiras', 'Frequência e funcionamento de ambos os lados.']
       ]
     },
     {
       id: 'rodas', nome: 'Rodas e pneus', icone: 'tire',
       itens: [
         ['front-left-tire', 'Pneu dianteiro esquerdo', 'Desgaste, bolhas e calibragem.'],
-        ['front-right-tire', 'Pneu dianteiro direito', 'Desgaste, bolhas e calibragem.'],
-        ['rear-left-tire', 'Pneu traseiro esquerdo', 'Desgaste, bolhas e calibragem.'],
-        ['rear-right-tire', 'Pneu traseiro direito', 'Desgaste, bolhas e calibragem.'],
         ['spare-tire', 'Estepe', 'Presença, calibragem e estado de conservação.'],
-        ['jack', 'Macaco', 'Presente e em condições de uso.'],
-        ['wheel-wrench', 'Chave de roda', 'Presente e compatível com as porcas.'],
-        ['wheels', 'Rodas', 'Empenamento, trincas e fixação.'],
-        ['hubcaps', 'Calotas', 'Presença e conservação do conjunto.'],
         ['tread-depth', 'Sulcos dos pneus', 'Profundidade mínima de 1,6 mm.']
       ]
     },
@@ -1765,82 +1714,37 @@ button, input, select, textarea { font-family: inherit; font-size: 100%; }
       id: 'mecanica', nome: 'Parte mecânica visível', icone: 'engine',
       itens: [
         ['leaks', 'Vazamentos aparentes', 'Óleo, fluidos ou combustível sob o veículo.'],
-        ['engine-condition', 'Estado do motor', 'Limpeza, fixação e ausência de improvisos.'],
-        ['oil-reservoir', 'Reservatório de óleo', 'Nível e aspecto do óleo na vareta.'],
-        ['coolant-reservoir', 'Reservatório de arrefecimento', 'Nível entre as marcas e cor do fluido.'],
-        ['brake-fluid', 'Fluido de freio', 'Nível e validade do fluido.'],
-        ['steering-fluid', 'Fluido de direção hidráulica, quando aplicável', 'Nível e sinais de vazamento.'],
-        ['battery', 'Bateria', 'Fixação, terminais e data de fabricação.'],
-        ['belts', 'Correias aparentes', 'Trincas, folga e tensionamento.'],
-        ['hoses', 'Mangueiras', 'Ressecamento, trincas e abraçadeiras.'],
-        ['radiator', 'Radiador', 'Colmeia, fixação e ausência de vazamento.']
+        ['battery', 'Bateria', 'Fixação, terminais e data de fabricação.']
       ]
     },
     {
       id: 'interior', nome: 'Interior', icone: 'seat',
       itens: [
-        ['interior-panel', 'Painel', 'Trincas, fixação e acabamento.'],
         ['driver-seat', 'Banco do motorista', 'Regulagens, costuras e estofamento.'],
-        ['passenger-seat', 'Banco passageiro', 'Regulagens, costuras e estofamento.'],
-        ['rear-seats', 'Bancos traseiros', 'Rebatimento, costuras e estofamento.'],
-        ['headliner', 'Forração do teto', 'Descolamento, manchas e furos.'],
-        ['carpet', 'Carpete', 'Umidade, manchas e fixação.'],
-        ['floor-mats', 'Tapetes', 'Presença e conservação do jogo.'],
-        ['steering-wheel', 'Volante', 'Revestimento, folga e regulagem.'],
-        ['gear-lever', 'Alavanca de câmbio', 'Engates, coifa e acabamento.'],
-        ['handbrake', 'Freio de mão', 'Curso e eficiência ao travar.'],
         ['front-seatbelts', 'Cintos dianteiros', 'Travamento, retração e integridade.'],
-        ['rear-seatbelts', 'Cintos traseiros', 'Travamento, retração e integridade.'],
-        ['airbags', 'Airbags aparentes', 'Tampas íntegras e sem luz de falha.'],
-        ['glovebox', 'Porta-luvas', 'Abertura, travamento e iluminação.'],
-        ['center-console', 'Console central', 'Fixação, tampas e compartimentos.']
+        ['airbags', 'Airbags aparentes', 'Tampas íntegras e sem luz de falha.']
       ]
     },
     {
       id: 'eletricos', nome: 'Painel e componentes elétricos', icone: 'plug',
       itens: [
         ['instrument-cluster', 'Painel de instrumentos', 'Iluminação e leitura dos mostradores.'],
-        ['odometer', 'Hodômetro', 'Leitura compatível com o estado do veículo.'],
-        ['warning-lights', 'Indicadores luminosos', 'Nenhuma luz de falha acesa após a partida.'],
-        ['air-conditioning', 'Ar-condicionado', 'Gela em todas as velocidades.'],
-        ['ventilation', 'Ventilação', 'Fluxo de ar e direcionadores.'],
-        ['radio-multimedia', 'Rádio/Multimídia', 'Ligamento, som e conectividade.'],
-        ['steering-controls', 'Comandos do volante', 'Todos os botões respondem.'],
-        ['power-windows', 'Vidros elétricos', 'Sobem e descem em todas as portas.'],
-        ['central-locking', 'Travamento elétrico', 'Trava e destrava pelo comando.'],
-        ['electric-mirrors', 'Retrovisores elétricos', 'Regulagem e rebatimento.'],
-        ['wipers', 'Limpadores de para-brisa', 'Velocidades, palhetas e esguicho.'],
-        ['rear-defogger', 'Desembaçador traseiro', 'Aquecimento das resistências.'],
-        ['horn', 'Buzina', 'Acionamento e volume.']
+        ['power-windows', 'Vidros elétricos', 'Sobem e descem em todas as portas.']
       ]
     },
     {
       id: 'equipamentos', nome: 'Equipamentos e acessórios', icone: 'toolbox',
       itens: [
         ['main-key', 'Chave principal', 'Funcionamento do comando e da lâmina.'],
-        ['spare-key', 'Chave reserva', 'Presente e testada na ignição.'],
-        ['owners-manual', 'Manual do proprietário', 'Presente e referente ao modelo.'],
-        ['warning-triangle', 'Triângulo', 'Presente e em condições de uso.'],
-        ['fire-extinguisher', 'Extintor, quando aplicável', 'Presente, dentro da validade e com carga.'],
-        ['emergency-kit', 'Kit de emergência', 'Itens obrigatórios completos.'],
-        ['antenna', 'Antena', 'Presente, fixada e sem danos.'],
-        ['multimedia-unit', 'Central multimídia', 'Original ou instalada corretamente.'],
-        ['parking-sensor', 'Sensor de estacionamento', 'Sensores respondem sem falhas.'],
-        ['reverse-camera', 'Câmera de ré', 'Imagem nítida e linhas-guia.']
+        ['warning-triangle', 'Triângulo', 'Presente e em condições de uso.']
       ]
     },
     {
       id: 'testes', nome: 'Testes e condições gerais', icone: 'flag',
       itens: [
         ['engine-start', 'Partida do veículo', 'Parte na primeira tentativa.'],
-        ['engine-running', 'Funcionamento do motor', 'Marcha lenta estável, sem falhas.'],
-        ['abnormal-noises', 'Ruídos anormais', 'Batidas, chiados ou estalos.'],
         ['front-bumper', 'Funcionamento do freio', 'Curso do pedal e frenagem em linha reta.'],
-        ['clutch-function', 'Funcionamento da embreagem, quando aplicável', 'Ponto de engate e ausência de patinação.'],
-        ['transmission-function', 'Funcionamento da transmissão', 'Trocas suaves em todas as marchas.'],
-        ['steering-function', 'Funcionamento da direção', 'Alinhamento, folgas e retorno.'],
-        ['suspension', 'Suspensão aparente', 'Amortecedores, molas e coxins.'],
-        ['electrical-system', 'Sistema elétrico geral', 'Carga do alternador e ausência de falhas.']
+        ['suspension', 'Suspensão aparente', 'Amortecedores, molas e coxins.']
       ]
     }
   ];
