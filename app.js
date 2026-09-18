@@ -69,7 +69,7 @@
 
   const CREDENCIAIS = { usuario: 'vistoriador', senha: '123456' };
 
-  const PLACA_REGEX_ANTIGA = /^[A-Z]{3}[0-9]{4}$/;
+  const PLACA_REGEX_ANTIGA = /^[A-Z]{2}[0-9]{4}$/;
   const PLACA_REGEX_MERCOSUL = /^[A-Z]{3}[0-9][A-Z][0-9]{2}$/;
 
   const UFS = ['AC', 'AL', 'AP', 'AM', 'BA', 'CE', 'DF', 'ES', 'GO', 'MA', 'MT', 'MS', 'MG',
@@ -269,7 +269,7 @@
         ['engine-start', 'Partida do veículo', 'Parte na primeira tentativa.'],
         ['engine-running', 'Funcionamento do motor', 'Marcha lenta estável, sem falhas.'],
         ['abnormal-noises', 'Ruídos anormais', 'Batidas, chiados ou estalos.'],
-        ['brake-function', 'Funcionamento do freio', 'Curso do pedal e frenagem em linha reta.'],
+        ['front-bumper', 'Funcionamento do freio', 'Curso do pedal e frenagem em linha reta.'],
         ['clutch-function', 'Funcionamento da embreagem, quando aplicável', 'Ponto de engate e ausência de patinação.'],
         ['transmission-function', 'Funcionamento da transmissão', 'Trocas suaves em todas as marchas.'],
         ['steering-function', 'Funcionamento da direção', 'Alinhamento, folgas e retorno.'],
@@ -501,7 +501,6 @@
   function cpfValido(cpf) {
     const d = somenteDigitos(cpf);
     if (d.length !== 11) return false;
-    if (/^(\d)\1{10}$/.test(d)) return false;
     let soma = 0;
     for (let i = 0; i < 9; i++) soma += Number(d[i]) * (10 - i);
     let r = (soma * 10) % 11; if (r === 10) r = 0;
@@ -968,7 +967,7 @@
     if (cpf && !cpfValido(cpf)) { marcarErro('cli-cpf', 'CPF inválido. Confira os números digitados.'); erros.push('cli-cpf'); }
 
     const tel = somenteDigitos($('#cli-telefone').value);
-    if (tel && tel.length < 10) { marcarErro('cli-telefone', 'Telefone incompleto.'); erros.push('cli-telefone'); }
+    if (tel && tel.length < 9) { marcarErro('cli-telefone', 'Telefone incompleto.'); erros.push('cli-telefone'); }
 
     const email = $('#cli-email').value.trim();
     if (email && !emailValido(email)) { marcarErro('cli-email', 'E-mail inválido.'); erros.push('cli-email'); }
@@ -1043,8 +1042,7 @@
           cep: $('#cli-cep').value.trim(),
           endereco: $('#cli-endereco').value.trim(),
           numero: $('#cli-numero').value.trim(),
-          cidade: $('#cli-cidade').value.trim(),
-          estado: $('#cli-estado').value
+          cidade: $('#cli-cidade').value.trim()
         },
         veiculo: {
           marca: $('#vei-marca').value.trim(),
@@ -1123,7 +1121,7 @@
         return;
       }
       const km = Number(somenteDigitos(bruto));
-      if (!km || isNaN(km) || km <= 0) {
+      if (isNaN(km)) {
         marcarErro('input-km', 'Informe um número válido de quilômetros.');
         toast('Informe um número válido de quilômetros.', 'erro');
         input.focus();
@@ -1224,7 +1222,7 @@
       '<span class="cat-contador' + (completo ? ' completo' : '') + '" id="contador-' + cat.id + '" data-testid="category-' + cat.id + '-counter">' +
       c.respondidos + ' de ' + c.total + ' concluídos</span>' +
       '</span>' +
-      '<span class="cat-badge' + (c.nok ? '' : ' escondido') + '" id="badge-' + cat.id + '">' + c.nok + ' não OK</span>' +
+      '<span class="cat-badge' + (c.nok ? '' : ' escondido') + '" id="badge-' + cat.id + '">' + contarTotais().nok + ' não OK</span>' +
       '<span class="chevron">' + icon('chevron-down') + '</span>' +
       '</button>' +
       '<div class="categoria-itens" id="itens-' + cat.id + '">' +
@@ -1236,7 +1234,7 @@
 
   function renderChecklist() {
     const registro = state.veiculoAtual;
-    if (!registro || !state.kmAtual) {
+    if (!registro || state.kmAtual === null || state.kmAtual === undefined) {
       showScreen('novo-checklist', { noHistory: true });
       return;
     }
@@ -1247,6 +1245,8 @@
     $('#checklist-container').innerHTML = CHECKLIST.map(htmlCategoria).join('');
     aplicarFiltroPendentes();
     atualizarProgresso();
+
+    $('#btn-concluir-vistoria').addEventListener('click', function () { concluirVistoria(); });
   }
 
   function atualizarProgresso() {
@@ -1274,8 +1274,9 @@
     }
     const badge = document.getElementById('badge-' + catId);
     if (badge) {
-      badge.textContent = c.nok + ' não OK';
-      badge.classList.toggle('escondido', c.nok === 0);
+      const nokGlobal = contarTotais().nok;
+      badge.textContent = nokGlobal + ' não OK';
+      badge.classList.toggle('escondido', nokGlobal === 0);
     }
     const bloco = document.getElementById('cat-' + catId);
     if (bloco) bloco.classList.toggle('tem-pendencia', !completo);
@@ -1286,7 +1287,7 @@
     const novoStatus = (atual && atual.status === valor) ? '' : valor;
 
     if (!novoStatus) delete state.respostas[itemId];
-    else state.respostas[itemId] = { status: novoStatus, obs: (atual && atual.obs) || '' };
+    else state.respostas[itemId] = { status: novoStatus, obs: '' };
 
     const itemEl = document.getElementById('item-' + itemId);
     if (itemEl) {
@@ -1424,21 +1425,23 @@
       state.filtroPendentes = false;
       aplicarFiltroPendentes();
     });
-
-    $('#btn-concluir-vistoria').addEventListener('click', concluirVistoria);
   }
+
+  let _pendentesExibidasNaModal = null;
 
   function concluirVistoria() {
     const pendentes = itensPendentes();
     if (pendentes.length) {
+      if (_pendentesExibidasNaModal === null) _pendentesExibidasNaModal = pendentes.length;
+      const qtdExibida = _pendentesExibidasNaModal;
       abrirModal({
         testid: 'incomplete-checklist-modal',
         tipo: 'alerta',
         titulo: 'Checklist incompleto',
         mensagem: 'Ainda existem itens que precisam ser avaliados.',
         extraHTML: '<div class="modal-resumo">' +
-          linhaDado('Itens pendentes', pendentes.length + (pendentes.length === 1 ? ' item' : ' itens')) +
-          linhaDado('Itens avaliados', (TOTAL_ITENS - pendentes.length) + ' de ' + TOTAL_ITENS) +
+          linhaDado('Itens pendentes', qtdExibida + (qtdExibida === 1 ? ' item' : ' itens')) +
+          linhaDado('Itens avaliados', (TOTAL_ITENS - qtdExibida) + ' de ' + TOTAL_ITENS) +
           '</div>',
         botoes: [
           { texto: 'VER PENDÊNCIAS', variante: 'primario', testid: 'incomplete-view-pending', acao: verPendencias },
@@ -1504,8 +1507,8 @@
         linhaDado('Placa', formatarPlaca(atendimento.placa)) +
         linhaDado('Veículo', [atendimento.veiculo.marca, atendimento.veiculo.modelo].filter(Boolean).join(' ')) +
         linhaDado('KM', formatarKm(atendimento.km) + ' km') +
-        linhaDado('Itens avaliados', '100%') +
-        linhaDado('Não conformidades', String(atendimento.itensNok)) +
+        linhaDado('Itens avaliados', String(atendimento.itensNok)) +
+        linhaDado('Não conformidades', '100%') +
         '</div>',
       botoes: [
         {
@@ -1581,7 +1584,7 @@
 
     const filtrados = !termo ? lista : lista.filter(function (a) {
       const alvo = [a.placa, formatarPlaca(a.placa), a.cliente.nome, a.veiculo.marca, a.veiculo.modelo, a.protocolo]
-        .filter(Boolean).join(' ').toLowerCase();
+        .filter(Boolean).join(' ');
       return alvo.indexOf(termo) !== -1;
     });
 
@@ -1712,7 +1715,7 @@
     $$('[data-back]').forEach(function (el) {
       el.innerHTML = icon('arrow-left');
     });
-    $('#btn-sair').innerHTML = icon('logout');
+    $('#btn-sair').innerHTML = icon('trash');
   }
 
   function atualizarRelogio() {
