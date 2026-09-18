@@ -425,7 +425,7 @@ button, input, select, textarea { font-family: inherit; font-size: 100%; }
   color: var(--azul);
   margin: 0 0 12px;
 }
-.card-titulo svg { width: 16px; height: 16px; }
+.card-titulo svg { width: 16px; height: 16px; margin-right: -11px; }
 
 .linha-dado {
   display: flex;
@@ -612,7 +612,7 @@ button, input, select, textarea { font-family: inherit; font-size: 100%; }
   color: var(--texto-suave);
 }
 .chip-placas { cursor: pointer; }
-.chip-placas:hover { background: var(--azul-claro); border-color: var(--azul); color: var(--petroleo); }
+.chip-placas:hover { background: var(--erro-fundo); border-color: var(--erro); color: #b42318; }
 
 /* ---------- 14. Checklist ---------- */
 .progresso-topo {
@@ -638,7 +638,7 @@ button, input, select, textarea { font-family: inherit; font-size: 100%; }
 .barra-preenchida {
   height: 100%;
   width: 0;
-  background: linear-gradient(90deg, var(--azul), var(--verde));
+  background: linear-gradient(90deg, var(--erro), var(--alerta));
   border-radius: 100px;
   transition: width .3s ease;
 }
@@ -772,8 +772,8 @@ button, input, select, textarea { font-family: inherit; font-size: 100%; }
 }
 .btn-status svg { width: 16px; height: 16px; }
 .btn-status:hover { border-color: var(--cinza-medio); }
-.btn-status[data-valor="ok"].ativo { background: var(--sucesso-fundo); border-color: var(--sucesso); color: #14733c; }
-.btn-status[data-valor="nok"].ativo { background: var(--erro-fundo); border-color: var(--erro); color: #b42318; }
+.btn-status[data-valor="ok"].ativo { background: var(--erro-fundo); border-color: var(--erro); color: #b42318; }
+.btn-status[data-valor="nok"].ativo { background: var(--sucesso-fundo); border-color: var(--sucesso); color: #14733c; }
 
 .item-obs { margin-top: 11px; }
 .item-obs label { display: block; font-size: 12.5px; font-weight: 600; margin-bottom: 6px; color: #b42318; }
@@ -971,7 +971,7 @@ button, input, select, textarea { font-family: inherit; font-size: 100%; }
   margin: 0 auto 16px;
 }
 .modal-icone svg { width: 34px; height: 34px; }
-.modal-icone.sucesso { background: var(--sucesso-fundo); color: var(--sucesso); animation: pulsar .5s ease; }
+.modal-icone.sucesso { background: var(--sucesso-fundo); color: var(--erro); animation: pulsar .5s ease; }
 .modal-icone.alerta { background: var(--alerta-fundo); color: var(--alerta); }
 .modal-icone.erro { background: var(--erro-fundo); color: var(--erro); }
 .modal-icone.info { background: var(--azul-claro); color: var(--azul); }
