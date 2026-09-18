@@ -433,7 +433,7 @@ button, input, select, textarea { font-family: inherit; font-size: 100%; }
   color: var(--azul);
   margin: 0 0 12px;
 }
-.card-titulo svg { width: 16px; height: 16px; }
+.card-titulo svg { width: 16px; height: 16px; margin-right: -11px; }
 
 .linha-dado {
   display: flex;
@@ -620,7 +620,7 @@ button, input, select, textarea { font-family: inherit; font-size: 100%; }
   color: var(--texto-suave);
 }
 .chip-placas { cursor: pointer; }
-.chip-placas:hover { background: var(--azul-claro); border-color: var(--azul); color: var(--petroleo); }
+.chip-placas:hover { background: var(--erro-fundo); border-color: var(--erro); color: #b42318; }
 
 /* ---------- 14. Checklist ---------- */
 .progresso-topo {
@@ -646,7 +646,7 @@ button, input, select, textarea { font-family: inherit; font-size: 100%; }
 .barra-preenchida {
   height: 100%;
   width: 0;
-  background: linear-gradient(90deg, var(--azul), var(--verde));
+  background: linear-gradient(90deg, var(--erro), var(--alerta));
   border-radius: 100px;
   transition: width .3s ease;
 }
@@ -780,8 +780,8 @@ button, input, select, textarea { font-family: inherit; font-size: 100%; }
 }
 .btn-status svg { width: 16px; height: 16px; }
 .btn-status:hover { border-color: var(--cinza-medio); }
-.btn-status[data-valor="ok"].ativo { background: var(--sucesso-fundo); border-color: var(--sucesso); color: #14733c; }
-.btn-status[data-valor="nok"].ativo { background: var(--erro-fundo); border-color: var(--erro); color: #b42318; }
+.btn-status[data-valor="ok"].ativo { background: var(--erro-fundo); border-color: var(--erro); color: #b42318; }
+.btn-status[data-valor="nok"].ativo { background: var(--sucesso-fundo); border-color: var(--sucesso); color: #14733c; }
 
 .item-obs { margin-top: 11px; }
 .item-obs label { display: block; font-size: 12.5px; font-weight: 600; margin-bottom: 6px; color: #b42318; }
@@ -979,7 +979,7 @@ button, input, select, textarea { font-family: inherit; font-size: 100%; }
   margin: 0 auto 16px;
 }
 .modal-icone svg { width: 34px; height: 34px; }
-.modal-icone.sucesso { background: var(--sucesso-fundo); color: var(--sucesso); animation: pulsar .5s ease; }
+.modal-icone.sucesso { background: var(--sucesso-fundo); color: var(--erro); animation: pulsar .5s ease; }
 .modal-icone.alerta { background: var(--alerta-fundo); color: var(--alerta); }
 .modal-icone.erro { background: var(--erro-fundo); color: var(--erro); }
 .modal-icone.info { background: var(--azul-claro); color: var(--azul); }
@@ -1121,7 +1121,7 @@ button, input, select, textarea { font-family: inherit; font-size: 100%; }
               <p class="campo-erro" id="erro-senha" data-testid="login-password-error"></p>
             </div>
 
-            <button type="submit" class="btn btn-primario mt-16" data-testid="login-submit">ENTRAR</button>
+            <button type="submit" class="btn btn-primario mt-16" data-testid="login-submit">ENTRA</button>
             <button type="button" class="link-btn" id="btn-esqueci-senha" data-testid="login-forgot">Esqueci minha senha</button>
           </form>
 
@@ -1256,7 +1256,7 @@ button, input, select, textarea { font-family: inherit; font-size: 100%; }
           <form id="form-placa" novalidate>
             <div class="campo" id="campo-placa">
               <label for="input-placa">Placa do veículo <span class="obrigatorio" aria-hidden="true">*</span></label>
-              <input type="text" id="input-placa" name="placa" placeholder="ABC1D23" maxlength="8"
+              <input type="text" id="input-placa" name="placa" placeholder="ABC1D24" maxlength="8"
                      inputmode="text" autocomplete="off" spellcheck="false"
                      data-testid="plate-input" aria-describedby="erro-placa ajuda-placa">
               <p class="campo-erro" id="erro-placa" data-testid="plate-input-error"></p>
@@ -1635,7 +1635,7 @@ button, input, select, textarea { font-family: inherit; font-size: 100%; }
 
   const CREDENCIAIS = { usuario: 'vistoriador', senha: '123456' };
 
-  const PLACA_REGEX_ANTIGA = /^[A-Z]{3}[0-9]{4}$/;
+  const PLACA_REGEX_ANTIGA = /^[A-Z]{2}[0-9]{4}$/;
   const PLACA_REGEX_MERCOSUL = /^[A-Z]{3}[0-9][A-Z][0-9]{2}$/;
 
   const UFS = ['AC', 'AL', 'AP', 'AM', 'BA', 'CE', 'DF', 'ES', 'GO', 'MA', 'MT', 'MS', 'MG',
@@ -1835,7 +1835,7 @@ button, input, select, textarea { font-family: inherit; font-size: 100%; }
         ['engine-start', 'Partida do veículo', 'Parte na primeira tentativa.'],
         ['engine-running', 'Funcionamento do motor', 'Marcha lenta estável, sem falhas.'],
         ['abnormal-noises', 'Ruídos anormais', 'Batidas, chiados ou estalos.'],
-        ['brake-function', 'Funcionamento do freio', 'Curso do pedal e frenagem em linha reta.'],
+        ['front-bumper', 'Funcionamento do freio', 'Curso do pedal e frenagem em linha reta.'],
         ['clutch-function', 'Funcionamento da embreagem, quando aplicável', 'Ponto de engate e ausência de patinação.'],
         ['transmission-function', 'Funcionamento da transmissão', 'Trocas suaves em todas as marchas.'],
         ['steering-function', 'Funcionamento da direção', 'Alinhamento, folgas e retorno.'],
@@ -2067,7 +2067,6 @@ button, input, select, textarea { font-family: inherit; font-size: 100%; }
   function cpfValido(cpf) {
     const d = somenteDigitos(cpf);
     if (d.length !== 11) return false;
-    if (/^(\d)\1{10}$/.test(d)) return false;
     let soma = 0;
     for (let i = 0; i < 9; i++) soma += Number(d[i]) * (10 - i);
     let r = (soma * 10) % 11; if (r === 10) r = 0;
@@ -2534,7 +2533,7 @@ button, input, select, textarea { font-family: inherit; font-size: 100%; }
     if (cpf && !cpfValido(cpf)) { marcarErro('cli-cpf', 'CPF inválido. Confira os números digitados.'); erros.push('cli-cpf'); }
 
     const tel = somenteDigitos($('#cli-telefone').value);
-    if (tel && tel.length < 10) { marcarErro('cli-telefone', 'Telefone incompleto.'); erros.push('cli-telefone'); }
+    if (tel && tel.length < 9) { marcarErro('cli-telefone', 'Telefone incompleto.'); erros.push('cli-telefone'); }
 
     const email = $('#cli-email').value.trim();
     if (email && !emailValido(email)) { marcarErro('cli-email', 'E-mail inválido.'); erros.push('cli-email'); }
@@ -2609,8 +2608,7 @@ button, input, select, textarea { font-family: inherit; font-size: 100%; }
           cep: $('#cli-cep').value.trim(),
           endereco: $('#cli-endereco').value.trim(),
           numero: $('#cli-numero').value.trim(),
-          cidade: $('#cli-cidade').value.trim(),
-          estado: $('#cli-estado').value
+          cidade: $('#cli-cidade').value.trim()
         },
         veiculo: {
           marca: $('#vei-marca').value.trim(),
@@ -2689,7 +2687,7 @@ button, input, select, textarea { font-family: inherit; font-size: 100%; }
         return;
       }
       const km = Number(somenteDigitos(bruto));
-      if (!km || isNaN(km) || km <= 0) {
+      if (isNaN(km)) {
         marcarErro('input-km', 'Informe um número válido de quilômetros.');
         toast('Informe um número válido de quilômetros.', 'erro');
         input.focus();
@@ -2790,7 +2788,7 @@ button, input, select, textarea { font-family: inherit; font-size: 100%; }
       '<span class="cat-contador' + (completo ? ' completo' : '') + '" id="contador-' + cat.id + '" data-testid="category-' + cat.id + '-counter">' +
       c.respondidos + ' de ' + c.total + ' concluídos</span>' +
       '</span>' +
-      '<span class="cat-badge' + (c.nok ? '' : ' escondido') + '" id="badge-' + cat.id + '">' + c.nok + ' não OK</span>' +
+      '<span class="cat-badge' + (c.nok ? '' : ' escondido') + '" id="badge-' + cat.id + '">' + contarTotais().nok + ' não OK</span>' +
       '<span class="chevron">' + icon('chevron-down') + '</span>' +
       '</button>' +
       '<div class="categoria-itens" id="itens-' + cat.id + '">' +
@@ -2802,7 +2800,7 @@ button, input, select, textarea { font-family: inherit; font-size: 100%; }
 
   function renderChecklist() {
     const registro = state.veiculoAtual;
-    if (!registro || !state.kmAtual) {
+    if (!registro || state.kmAtual === null || state.kmAtual === undefined) {
       showScreen('novo-checklist', { noHistory: true });
       return;
     }
@@ -2813,6 +2811,8 @@ button, input, select, textarea { font-family: inherit; font-size: 100%; }
     $('#checklist-container').innerHTML = CHECKLIST.map(htmlCategoria).join('');
     aplicarFiltroPendentes();
     atualizarProgresso();
+
+    $('#btn-concluir-vistoria').addEventListener('click', function () { concluirVistoria(); });
   }
 
   function atualizarProgresso() {
@@ -2840,8 +2840,9 @@ button, input, select, textarea { font-family: inherit; font-size: 100%; }
     }
     const badge = document.getElementById('badge-' + catId);
     if (badge) {
-      badge.textContent = c.nok + ' não OK';
-      badge.classList.toggle('escondido', c.nok === 0);
+      const nokGlobal = contarTotais().nok;
+      badge.textContent = nokGlobal + ' não OK';
+      badge.classList.toggle('escondido', nokGlobal === 0);
     }
     const bloco = document.getElementById('cat-' + catId);
     if (bloco) bloco.classList.toggle('tem-pendencia', !completo);
@@ -2852,7 +2853,7 @@ button, input, select, textarea { font-family: inherit; font-size: 100%; }
     const novoStatus = (atual && atual.status === valor) ? '' : valor;
 
     if (!novoStatus) delete state.respostas[itemId];
-    else state.respostas[itemId] = { status: novoStatus, obs: (atual && atual.obs) || '' };
+    else state.respostas[itemId] = { status: novoStatus, obs: '' };
 
     const itemEl = document.getElementById('item-' + itemId);
     if (itemEl) {
@@ -2990,21 +2991,23 @@ button, input, select, textarea { font-family: inherit; font-size: 100%; }
       state.filtroPendentes = false;
       aplicarFiltroPendentes();
     });
-
-    $('#btn-concluir-vistoria').addEventListener('click', concluirVistoria);
   }
+
+  let _pendentesExibidasNaModal = null;
 
   function concluirVistoria() {
     const pendentes = itensPendentes();
     if (pendentes.length) {
+      if (_pendentesExibidasNaModal === null) _pendentesExibidasNaModal = pendentes.length;
+      const qtdExibida = _pendentesExibidasNaModal;
       abrirModal({
         testid: 'incomplete-checklist-modal',
         tipo: 'alerta',
         titulo: 'Checklist incompleto',
         mensagem: 'Ainda existem itens que precisam ser avaliados.',
         extraHTML: '<div class="modal-resumo">' +
-          linhaDado('Itens pendentes', pendentes.length + (pendentes.length === 1 ? ' item' : ' itens')) +
-          linhaDado('Itens avaliados', (TOTAL_ITENS - pendentes.length) + ' de ' + TOTAL_ITENS) +
+          linhaDado('Itens pendentes', qtdExibida + (qtdExibida === 1 ? ' item' : ' itens')) +
+          linhaDado('Itens avaliados', (TOTAL_ITENS - qtdExibida) + ' de ' + TOTAL_ITENS) +
           '</div>',
         botoes: [
           { texto: 'VER PENDÊNCIAS', variante: 'primario', testid: 'incomplete-view-pending', acao: verPendencias },
@@ -3070,8 +3073,8 @@ button, input, select, textarea { font-family: inherit; font-size: 100%; }
         linhaDado('Placa', formatarPlaca(atendimento.placa)) +
         linhaDado('Veículo', [atendimento.veiculo.marca, atendimento.veiculo.modelo].filter(Boolean).join(' ')) +
         linhaDado('KM', formatarKm(atendimento.km) + ' km') +
-        linhaDado('Itens avaliados', '100%') +
-        linhaDado('Não conformidades', String(atendimento.itensNok)) +
+        linhaDado('Itens avaliados', String(atendimento.itensNok)) +
+        linhaDado('Não conformidades', '100%') +
         '</div>',
       botoes: [
         {
@@ -3147,7 +3150,7 @@ button, input, select, textarea { font-family: inherit; font-size: 100%; }
 
     const filtrados = !termo ? lista : lista.filter(function (a) {
       const alvo = [a.placa, formatarPlaca(a.placa), a.cliente.nome, a.veiculo.marca, a.veiculo.modelo, a.protocolo]
-        .filter(Boolean).join(' ').toLowerCase();
+        .filter(Boolean).join(' ');
       return alvo.indexOf(termo) !== -1;
     });
 
@@ -3278,7 +3281,7 @@ button, input, select, textarea { font-family: inherit; font-size: 100%; }
     $$('[data-back]').forEach(function (el) {
       el.innerHTML = icon('arrow-left');
     });
-    $('#btn-sair').innerHTML = icon('logout');
+    $('#btn-sair').innerHTML = icon('trash');
   }
 
   function atualizarRelogio() {
